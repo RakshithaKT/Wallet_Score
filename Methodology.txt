@@ -1,0 +1,75 @@
+1. Project Objective
+
+This tool is designed to assign a score(0-100) to wallets indicating good-bad wallet analysis. It is based on their historical transaction behavior. The purpose is to distinguish between responsible users (higher scores) and wallets that exhibit riskier or less consistent patterns (lower scores), using only transaction-level data.
+
+2. Data Input & Handling
+
+Three JSON files (`compoundV2_transactions_ethereum_chunk_0.json` to `_2.json`) were used, they contained:
+
+1.Deposits
+2.Borrows
+3.Repayments
+4.Withdrawals
+
+3. Data Preparation using streamlit app:
+
+1.Multiple JSON files are uploaded and parsed through the UI.
+2.Pandas was used to separate transactions by type.
+3.Fields like `timestamp`, `amount`, and `amountUSD` are cleaned and converted into usable formats.
+4.Each wallet is identified using the `account.id` field.
+5.All valid transactions are consolidated into one master dataset for further analysis.
+6.Processed data is saved in session state to persist across interactions (e.g., CSV downloads).
+
+4. Feature Construction
+
+Each wallet's behavior was dependent on:
+1.Usage Statistics:
+
+1.Number of actions: deposits, borrows, repayments, and withdrawals
+2.Total USD values moved in each category
+
+2.Behavioral Ratios:
+
+Repayment coverage: How much of a wallet's debt was repaid
+Borrowing intensity: Level of debt taken relative to deposits
+  
+Activity Timeline:
+
+Wallet age: Time span between first and most recent recorded transaction
+Total interactions: Count of all recorded operations
+
+
+4. Scoring Formula
+
+A rule-based scoring system computes a raw score, which is then scaled to a 0–100 range. The components are:
+ Positive Indicators:
+
+Repayment performance(up to 35 points):
+  Higher ratio of repaid to borrowed funds earns more points.
+
+Wallet longevity(up to 20 points):
+  Accounts active over longer periods earn higher scores, scaled logarithmically.
+
+Participation level(up to 15 points total):
+  Rewards both number of transactions and total volume handled.
+
+Token diversity(up to 5 points):
+  Slight bonus for engaging with multiple types of assets.
+
+Risk Signals:
+
+Over-leveraging penalty(up to -30 points):
+  If borrowing heavily relative to deposits, wallets are penalized progressively beyond a 0.8 ratio.
+
+Potential automation penalty(up to -10 points, planned):
+  Intended to flag wallets transacting too frequently over time — useful for detecting bots or flashloan behaviors.
+
+5. Score Finalization
+
+It allows users to:
+
+1.View wallet scores in a sortable table
+2.Download the top 1000 wallets by score as a CSV file
+3.Generate a text report comparing characteristics of the top vs. bottom performers
+
+All output is generated dynamically within the Streamlit interface, and the backend uses session state to maintain results without requiring repeated uploads.
