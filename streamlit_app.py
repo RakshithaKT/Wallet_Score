@@ -11,7 +11,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
 st.set_page_config(page_title="Compound V2 Wallet Scorer", layout="wide")
-st.title("📊 Compound V2 Wallet Scoring Tool")
+st.title("Compound V2 Wallet Scoring Tool")
 
 # Check if results are already processed to avoid repeating the file upload phase
 if 'processed_scores' not in st.session_state:
