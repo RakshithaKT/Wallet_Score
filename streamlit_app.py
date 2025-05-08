@@ -24,7 +24,7 @@ uploaded_files = st.file_uploader(
 )
 
 # Process the uploaded files
-if st.button("🚀 Score Wallets") and uploaded_files:
+if st.button(" Score Wallets") and uploaded_files:
     st.info("Processing uploaded files...")
 
     # 1. Load and structure the data
@@ -142,7 +142,7 @@ if st.button("🚀 Score Wallets") and uploaded_files:
     # Finalize output
     scores_df = scores_df.sort_values(by='raw_score', ascending=False).reset_index()
 
-    st.success("✅ Wallet scoring complete!")
+    st.success(" Wallet scoring complete!")
     st.dataframe(scores_df)
 
     # Save processed results in session state
